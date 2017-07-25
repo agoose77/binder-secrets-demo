@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -eu
+
+SECRETS_FILE="${SECRETS_PATH:-/run/secrets/binderhub}/secrets.env"
+
+# Handle secrets, if they exist
+if [[ -f "${SECRETS_FILE}" ]]; then
+  exec dotenv -f "${SECRETS_FILE}" run -- "$@"
+else
+  exec "$@"
+fi

@@ -1,21 +1,8 @@
-# Example Binder with environment.yml
+# Binder Repository with Secrets
 
-A Binder-compatible repo with an `environment.yml` file.
+This repository uses a convention of defining an encrypted .env file `secrets.encrypted.env` in the `$REPO_DIR` which is decrypted by the JupyterHub (BinderHub) that consumes the image, and mounts the result.
 
-[![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/binder-examples/conda-environment/master)
-
-Access this Binder at the following URL:
-
-http://beta.mybinder.org/v2/gh/binder-examples/conda-environment/master
-
-# Notes
-The `environment.yml` file should list all Python libraries on which your notebooks
-depend, specified as though they were created using the following `conda` commands:
-
+The public AGE key (see `age.public.txt`) can be used to encrypt this environment with
+```shell
+sops encrypt --age "$(cat age.public.txt)" secret.env --output secret.encrypted.env
 ```
-source activate example-environment
-conda env export > environment.yml
-```
-
-Note that the only libraries available to you will be the ones specified in
-the `environment.yml`, so be sure to include everything that you need!
